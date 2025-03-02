@@ -9,6 +9,8 @@
   },
   "private": true,
   "dependencies": {
+    "@auth/core": "^0.38.0",
+    "@hono/auth-js": "^1.0.15",
     "hono": "^4.7.2",
     "honox": "^0.1.38"
   },
