@@ -1,18 +1,35 @@
 import { createRoute } from "honox/factory";
-import Input from "../islands/input";
-import Button from "../islands/button";
-import Dialog from "../islands/dialog";
+import prismaClient from "../utils/prismaClient";
 
-export default createRoute((c) => {
+export default createRoute(async (c) => {
+  const inventories = await prismaClient.inventory.findMany();
+
   return c.render(
-    <Dialog title="備品追加">
-      <form action="/inventories" method="post" class="flex flex-col gap-6 p-3">
-        <h1>備品追加</h1>
-        <Input title="備品名" />
-        <div class="flex gap-3">
-          <Button type="submit" title="追加" />
-        </div>
-      </form>
-    </Dialog>
+    <form action="/inventories/borrow" method="post">
+      <h1>備品一覧</h1>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>備品名</th>
+          </tr>
+        </thead>
+        <tbody>
+          {inventories.map((inventory) => {
+            return (
+              <tr key={inventory.id}>
+                <td class="px-2">
+                  <input type="checkbox" name={`inventory-${inventory.id}`} />
+                </td>
+                <td class="px-2">{inventory.id}</td>
+                <td class="px-2">{inventory.name}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <button type="submit">削除</button>
+    </form>
   );
 });
