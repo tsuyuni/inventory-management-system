@@ -1,7 +1,8 @@
 import { createRoute } from "honox/factory";
 
 export const POST = createRoute(async (c) => {
-  console.log(await c.req.parseBody());
+  const inventoriesToBorrow = Object.keys(await c.req.parseBody());
+  console.log(inventoriesToBorrow);
 
   return c.redirect("/");
 });
